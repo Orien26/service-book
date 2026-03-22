@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import {
   Plus, Wrench, CheckCircle, Clock, Copy, Check,
-  MapPin, Phone, Mail, ChevronRight, Building2,
+  MapPin, Phone, Mail, Send, ChevronRight, Building2,
   Cpu, AlertCircle, Archive
 } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
@@ -62,10 +62,22 @@ export default function AdminClientDetail() {
     load()
   }, [clientId])
 
+  function inviteUrl() {
+    return `${window.location.origin}/register?client=${clientId}`
+  }
+
   function copyInviteLink() {
-    navigator.clipboard.writeText(`${window.location.origin}/register?client=${clientId}`)
+    navigator.clipboard.writeText(inviteUrl())
     setCopied(true)
     setTimeout(() => setCopied(false), 2500)
+  }
+
+  function mailtoInviteLink() {
+    const subject = encodeURIComponent(`Your Service Book access – ${client.full_name}`)
+    const body = encodeURIComponent(
+      `Hi ${client.full_name},\n\nYour heating service records are now available online.\n\nClick the link below to create your account and view your service history, photos, and invoices:\n\n${inviteUrl()}\n\nIf you have any questions, feel free to get in touch.\n\nKind regards`
+    )
+    return `mailto:${client.email || ''}?subject=${subject}&body=${body}`
   }
 
   // Jobs NOT linked to a device (legacy or direct)
@@ -127,6 +139,9 @@ export default function AdminClientDetail() {
                 {copied ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}
                 {copied ? 'Copied!' : 'Copy invite link'}
               </button>
+              <a href={mailtoInviteLink()} className="btn-secondary btn-sm">
+                <Send size={13} /> Email invite
+              </a>
               <Link to={`/admin/clients/${clientId}/locations/new`} className="btn-secondary btn-sm">
                 <Plus size={13} /> Add location
               </Link>

@@ -14,8 +14,17 @@ export default function ProtectedRoute({ children, role }) {
 
   if (!user) return <Navigate to="/login" replace />
 
-  if (role && profile?.role !== role) {
-    return <Navigate to={profile?.role === 'admin' ? '/admin' : '/dashboard'} replace />
+  // Profile still missing after load — avoid redirect loop
+  if (!profile) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-sm text-slate-500">Setting up your account…</p>
+      </div>
+    )
+  }
+
+  if (role && profile.role !== role) {
+    return <Navigate to={profile.role === 'admin' ? '/admin' : '/dashboard'} replace />
   }
 
   return children

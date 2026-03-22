@@ -27,12 +27,29 @@ export function AuthProvider({ children }) {
   }, [])
 
   async function fetchProfile(userId) {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('profiles')
       .select('*')
       .eq('id', userId)
-      .single()
-    setProfile(data)
+      .maybeSingle()
+
+    if (data) {
+      setProfile(data)
+      setLoading(false)
+      return
+    }
+
+    // No profile row yet (trigger may not have fired) — create one
+    if (!data && (error === null || error?.code === 'PGRST116')) {
+      const { data: created } = await supabase
+        .from('profiles')
+        .insert({ id: userId, role: 'client' })
+        .select()
+        .single()
+      setProfile(created ?? null)
+    } else {
+      setProfile(null)
+    }
     setLoading(false)
   }
 
