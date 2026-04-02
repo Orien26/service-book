@@ -4,6 +4,8 @@ import ProtectedRoute from './components/ProtectedRoute'
 
 import Login from './pages/Login'
 import Register from './pages/Register'
+import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
 
 import AdminDashboard    from './pages/admin/Dashboard'
 import AdminNewClient    from './pages/admin/NewClient'
@@ -33,8 +35,10 @@ export default function App() {
   return (
     <Routes>
       {/* Public */}
-      <Route path="/login"    element={!user ? <Login />    : <Navigate to={profile?.role === 'admin' ? '/admin' : '/dashboard'} replace />} />
-      <Route path="/register" element={!user ? <Register /> : <Navigate to="/dashboard" replace />} />
+      <Route path="/login"          element={!user ? <Login />          : <Navigate to={profile?.role === 'admin' ? '/admin' : '/dashboard'} replace />} />
+      <Route path="/register"       element={!user ? <Register />       : <Navigate to="/dashboard" replace />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password"  element={<ResetPassword />} />
 
       {/* Admin */}
       <Route path="/admin"                                          element={<ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>} />

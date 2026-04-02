@@ -6,6 +6,7 @@ import { ClientLayout } from '../../components/Layout'
 import MediaGallery from '../../components/MediaGallery'
 import CommentThread from '../../components/CommentThread'
 import EquipmentBadge from '../../components/EquipmentBadge'
+import HelpTip from '../../components/HelpTip'
 import { buildGoogleCalendarUrl, downloadIcsFile } from '../../lib/calendar'
 
 function Section({ title, children }) {
@@ -194,7 +195,10 @@ export default function ClientJobDetail() {
 
         {/* Messages */}
         <Section title="Messages">
-          <CommentThread jobId={jobId} comments={comments} onNewComment={c => setComments(prev => [...prev, c])} />
+          <div className="space-y-3">
+            <HelpTip>You can send a message to your technician here — for example to ask a question about this job or request a follow-up.</HelpTip>
+            <CommentThread jobId={jobId} comments={comments} onNewComment={c => setComments(prev => [...prev, c])} />
+          </div>
         </Section>
       </div>
     </ClientLayout>

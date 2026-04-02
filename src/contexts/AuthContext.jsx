@@ -9,14 +9,12 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
       if (session?.user) fetchProfile(session.user.id)
       else setLoading(false)
     })
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
       if (session?.user) fetchProfile(session.user.id)
@@ -35,12 +33,7 @@ export function AuthProvider({ children }) {
 
     if (data) {
       setProfile(data)
-      setLoading(false)
-      return
-    }
-
-    // No profile row yet (trigger may not have fired) — create one
-    if (!data && (error === null || error?.code === 'PGRST116')) {
+    } else if (!data && (error === null || error?.code === 'PGRST116')) {
       const { data: created } = await supabase
         .from('profiles')
         .insert({ id: userId, role: 'client' })
@@ -50,6 +43,7 @@ export function AuthProvider({ children }) {
     } else {
       setProfile(null)
     }
+
     setLoading(false)
   }
 
@@ -58,25 +52,43 @@ export function AuthProvider({ children }) {
     if (error) throw error
   }
 
-  async function signUp(email, password, fullName, phone, clientToken) {
+  async function signUp(email, password, fullName, phone) {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        data: { full_name: fullName, phone },
+        data: fullName ? { full_name: fullName, phone } : {},
       },
     })
     if (error) throw error
-
-    // If client signed up via invite link, link their profile to the client record
-    if (clientToken && data.user) {
-      await supabase
-        .from('clients')
-        .update({ profile_id: data.user.id })
-        .eq('id', clientToken)
-    }
-
     return data
+  }
+
+  // Called explicitly after signUp when registering via invite link.
+  // Uses a SECURITY DEFINER RPC to bypass RLS on the clients table.
+  async function linkClient(clientToken) {
+    const { error } = await supabase.rpc('link_client_to_profile', { client_id: clientToken })
+    if (error) throw error
+
+    // Sync client's name into profile so the header displays it correctly
+    const { data: { user: currentUser } } = await supabase.auth.getUser()
+    if (!currentUser) return
+
+    const { data: clientData } = await supabase
+      .from('clients')
+      .select('full_name')
+      .eq('id', clientToken)
+      .single()
+
+    if (clientData?.full_name) {
+      const { data: updated } = await supabase
+        .from('profiles')
+        .update({ full_name: clientData.full_name })
+        .eq('id', currentUser.id)
+        .select()
+        .single()
+      if (updated) setProfile(updated)
+    }
   }
 
   async function signOut() {
@@ -87,7 +99,7 @@ export function AuthProvider({ children }) {
   const isClient = profile?.role === 'client'
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, isAdmin, isClient, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ user, profile, loading, isAdmin, isClient, signIn, signUp, linkClient, signOut }}>
       {children}
     </AuthContext.Provider>
   )

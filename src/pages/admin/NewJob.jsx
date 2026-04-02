@@ -27,7 +27,7 @@ export default function NewJob() {
     service_date: new Date().toISOString().split('T')[0],
     next_service_date: '',
     total_amount: '',
-    currency: 'EUR',
+    currency: 'CHF',
     status: 'in_progress',
     location_id: '',
     device_id: deviceId || '',
@@ -226,10 +226,9 @@ export default function NewJob() {
             <div>
               <label className="label">Currency</label>
               <select className="input" value={form.currency} onChange={update('currency')}>
+                <option value="CHF">CHF Fr</option>
                 <option value="EUR">EUR €</option>
-                <option value="GBP">GBP £</option>
                 <option value="USD">USD $</option>
-                <option value="NGN">NGN ₦</option>
               </select>
             </div>
           </div>

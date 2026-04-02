@@ -4,6 +4,7 @@ import { Plus, Search, MapPin, Phone, Mail, ChevronRight, Users, Flame } from 'l
 import { supabase } from '../../lib/supabase'
 import { AdminLayout } from '../../components/Layout'
 import EquipmentBadge from '../../components/EquipmentBadge'
+import HelpTip from '../../components/HelpTip'
 
 const TABS = [
   { key: 'all',        label: 'All Clients' },
@@ -46,6 +47,14 @@ export default function AdminDashboard() {
 
   return (
     <AdminLayout title="Clients">
+      {total === 0 && (
+        <div className="mb-5">
+          <HelpTip>
+            Welcome! Start by clicking <strong>Add client</strong> to create your first client. You can then add their property locations, equipment, and service jobs. Once a job is created, send the client their invite link so they can view their records online.
+          </HelpTip>
+        </div>
+      )}
+
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <StatCard value={total}      label="Total clients"  color="blue"   />

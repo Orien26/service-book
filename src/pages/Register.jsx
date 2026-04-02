@@ -1,18 +1,19 @@
 import { useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
-import { Flame, Mail, Lock, User, Phone, Eye, EyeOff, CheckCircle } from 'lucide-react'
+import { Link, useSearchParams, useNavigate } from 'react-router-dom'
+import { Flame, Mail, Lock, User, Phone, Eye, EyeOff } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 
 export default function Register() {
-  const { signUp } = useAuth()
+  const { signUp, linkClient } = useAuth()
+  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const clientToken = searchParams.get('client')
+  const isInvite = Boolean(clientToken)
 
   const [form, setForm] = useState({ fullName: '', email: '', phone: '', password: '', confirm: '' })
   const [showPass, setShowPass] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [done, setDone] = useState(false)
 
   function update(field) {
     return (e) => setForm((f) => ({ ...f, [field]: e.target.value }))
@@ -25,31 +26,18 @@ export default function Register() {
     setLoading(true)
     setError(null)
     try {
-      await signUp(form.email.trim(), form.password, form.fullName.trim(), form.phone.trim(), clientToken)
-      setDone(true)
+      await signUp(
+        form.email.trim(),
+        form.password,
+        isInvite ? null : form.fullName.trim(),
+        isInvite ? null : form.phone.trim(),
+      )
+      if (clientToken) await linkClient(clientToken)
+      navigate('/dashboard')
     } catch (err) {
       setError(err.message)
       setLoading(false)
     }
-  }
-
-  if (done) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-        <div className="card p-10 max-w-sm w-full text-center animate-fade-in">
-          <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-5">
-            <CheckCircle size={30} className="text-emerald-600" />
-          </div>
-          <h2 className="text-xl font-bold text-slate-900 mb-2">Check your email</h2>
-          <p className="text-sm text-slate-500 leading-relaxed">
-            We sent a confirmation link to <strong className="text-slate-700">{form.email}</strong>. Click it to activate your account, then sign in.
-          </p>
-          <Link to="/login" className="btn-primary mt-6 w-full justify-center">
-            Back to sign in
-          </Link>
-        </div>
-      </div>
-    )
   }
 
   return (
@@ -66,34 +54,43 @@ export default function Register() {
         </div>
 
         <div className="mb-7">
-          <h1 className="text-2xl font-bold text-slate-900">Create your account</h1>
-          <p className="text-sm text-slate-500 mt-1">Set your password to access your service records</p>
+          <h1 className="text-2xl font-bold text-slate-900">
+            {isInvite ? 'Access your service records' : 'Create your account'}
+          </h1>
+          <p className="text-sm text-slate-500 mt-1">
+            {isInvite
+              ? 'Your records are ready. Enter your email and choose a password to get started.'
+              : 'Set your password to access your service records'}
+          </p>
         </div>
 
         {error && <div className="form-error mb-5">{error}</div>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="label">Full name</label>
-            <div className="relative">
-              <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input type="text" className="input pl-10" placeholder="Your full name" value={form.fullName} onChange={update('fullName')} required />
-            </div>
-          </div>
+          {!isInvite && (
+            <>
+              <div>
+                <label className="label">Full name</label>
+                <div className="relative">
+                  <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input type="text" className="input pl-10" placeholder="Your full name" value={form.fullName} onChange={update('fullName')} required />
+                </div>
+              </div>
+              <div>
+                <label className="label">Phone <span className="label-hint">(optional)</span></label>
+                <div className="relative">
+                  <Phone size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input type="tel" className="input pl-10" placeholder="+353 87 000 0000" value={form.phone} onChange={update('phone')} />
+                </div>
+              </div>
+            </>
+          )}
 
           <div>
             <label className="label">Email address</label>
             <div className="relative">
               <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input type="email" className="input pl-10" placeholder="you@example.com" value={form.email} onChange={update('email')} required />
-            </div>
-          </div>
-
-          <div>
-            <label className="label">Phone <span className="label-hint">(optional)</span></label>
-            <div className="relative">
-              <Phone size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input type="tel" className="input pl-10" placeholder="+353 87 000 0000" value={form.phone} onChange={update('phone')} />
+              <input type="email" className="input pl-10" placeholder="you@example.com" value={form.email} onChange={update('email')} required autoComplete="email" />
             </div>
           </div>
 
@@ -108,6 +105,7 @@ export default function Register() {
                 value={form.password}
                 onChange={update('password')}
                 required
+                autoComplete="new-password"
               />
               <button type="button" className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors" onClick={() => setShowPass(!showPass)}>
                 {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -119,7 +117,7 @@ export default function Register() {
             <label className="label">Confirm password</label>
             <div className="relative">
               <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input type="password" className="input pl-10" placeholder="Repeat your password" value={form.confirm} onChange={update('confirm')} required />
+              <input type="password" className="input pl-10" placeholder="Repeat your password" value={form.confirm} onChange={update('confirm')} required autoComplete="new-password" />
             </div>
           </div>
 
@@ -127,9 +125,9 @@ export default function Register() {
             {loading ? (
               <span className="flex items-center gap-2">
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Creating account…
+                {isInvite ? 'Setting up…' : 'Creating account…'}
               </span>
-            ) : 'Create account'}
+            ) : (isInvite ? 'Access my records' : 'Create account')}
           </button>
         </form>
 

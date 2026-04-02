@@ -11,6 +11,7 @@ import MediaUpload from '../../components/MediaUpload'
 import MediaGallery from '../../components/MediaGallery'
 import CommentThread from '../../components/CommentThread'
 import EquipmentBadge from '../../components/EquipmentBadge'
+import HelpTip from '../../components/HelpTip'
 import { buildGoogleCalendarUrl, downloadIcsFile } from '../../lib/calendar'
 import { createNotification } from '../../lib/supabase'
 
@@ -305,6 +306,7 @@ export default function AdminJobDetail() {
         {/* Before photos */}
         <Section title="Before photos">
           <div className="space-y-3">
+            <HelpTip>Upload photos taken before the service — these help document the initial condition of the equipment.</HelpTip>
             <MediaGallery media={media.filter(m => m.media_type === 'before')} onHide={hideMedia} />
             <MediaUpload jobId={jobId} mediaType="before" onUploaded={m => setMedia(prev => [...prev, m])} />
           </div>
@@ -313,6 +315,7 @@ export default function AdminJobDetail() {
         {/* After photos */}
         <Section title="After photos">
           <div className="space-y-3">
+            <HelpTip>Upload photos taken after the service — these show the completed work to the client.</HelpTip>
             <MediaGallery media={media.filter(m => m.media_type === 'after')} onHide={hideMedia} />
             <MediaUpload jobId={jobId} mediaType="after" onUploaded={m => setMedia(prev => [...prev, m])} />
           </div>
@@ -321,6 +324,7 @@ export default function AdminJobDetail() {
         {/* Invoice */}
         <Section title="Invoice">
           <div className="space-y-3">
+            <HelpTip>Upload the invoice PDF or photo here. The client will be able to download it from their account.</HelpTip>
             <MediaGallery media={media.filter(m => m.media_type === 'invoice')} onHide={hideMedia} />
             <MediaUpload jobId={jobId} mediaType="invoice" onUploaded={m => setMedia(prev => [...prev, m])} />
           </div>
@@ -328,7 +332,10 @@ export default function AdminJobDetail() {
 
         {/* Messages */}
         <Section title="Messages">
-          <CommentThread jobId={jobId} comments={comments} onNewComment={c => setComments(prev => [...prev, c])} />
+          <div className="space-y-3">
+            <HelpTip>Use messages to communicate with your client about this job. Both you and the client can leave notes here.</HelpTip>
+            <CommentThread jobId={jobId} comments={comments} onNewComment={c => setComments(prev => [...prev, c])} />
+          </div>
         </Section>
       </div>
     </AdminLayout>

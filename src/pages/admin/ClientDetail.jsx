@@ -8,6 +8,7 @@ import {
 import { supabase } from '../../lib/supabase'
 import { AdminLayout } from '../../components/Layout'
 import EquipmentBadge from '../../components/EquipmentBadge'
+import HelpTip from '../../components/HelpTip'
 
 function StatusBadge({ status, isArchived }) {
   if (isArchived) return <span className="badge-slate"><Archive size={10} className="mr-0.5" />Archived</span>
@@ -150,6 +151,14 @@ export default function AdminClientDetail() {
               </Link>
             </div>
           </div>
+
+          {!client.profile_id && (
+            <div className="mt-4">
+              <HelpTip>
+                This client hasn't created their account yet. Send them the invite link so they can register and view their service records. The link is unique to this client — once they sign up, their account will be automatically linked.
+              </HelpTip>
+            </div>
+          )}
         </div>
 
         {/* Locations & Devices hierarchy */}

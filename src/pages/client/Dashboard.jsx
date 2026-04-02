@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Wrench, CheckCircle, Clock, MapPin, Cpu, Archive, ChevronRight } from 'lucide-react'
+import { Wrench, CheckCircle, Clock, MapPin, Cpu, Archive, ChevronRight, Edit2, Save, X, Phone, User } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../contexts/AuthContext'
 import { ClientLayout } from '../../components/Layout'
 import EquipmentBadge from '../../components/EquipmentBadge'
+import HelpTip from '../../components/HelpTip'
 
 function formatDate(d) {
   if (!d) return '—'
@@ -19,6 +20,9 @@ export default function ClientDashboard() {
   const [devices, setDevices]   = useState({})
   const [loading, setLoading]   = useState(true)
   const [showArchived, setShowArchived] = useState(false)
+  const [editing, setEditing] = useState(false)
+  const [editForm, setEditForm] = useState({ full_name: '', phone: '' })
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -57,6 +61,22 @@ export default function ClientDashboard() {
     load()
   }, [user.id])
 
+  async function saveProfile() {
+    setSaving(true)
+    const { data } = await supabase
+      .from('clients')
+      .update({ full_name: editForm.full_name, phone: editForm.phone })
+      .eq('id', client.id)
+      .select()
+      .single()
+    if (data) {
+      setClient(data)
+      await supabase.from('profiles').update({ full_name: data.full_name }).eq('id', user.id)
+    }
+    setSaving(false)
+    setEditing(false)
+  }
+
   if (loading) {
     return (
       <ClientLayout>
@@ -90,17 +110,59 @@ export default function ClientDashboard() {
   return (
     <ClientLayout title="Your service records">
 
+      <div className="mb-5">
+        <HelpTip>
+          Here you can see all your heating service records. Click on any job to view details, photos, invoices, and messages from your technician. Use the <strong>Schedule Service</strong> button to book your next appointment.
+        </HelpTip>
+      </div>
+
       {/* Property info */}
-      <div className="card p-4 mb-5 flex items-start gap-3.5">
-        <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center shrink-0">
-          <MapPin size={18} className="text-blue-600" />
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="font-bold text-slate-900">{client.full_name}</p>
-          <p className="text-sm text-slate-500 truncate">{client.property_address}</p>
-          {client.city && <p className="text-xs text-slate-400 mt-0.5">{client.city}</p>}
-          {client.equipment_type && <div className="mt-2"><EquipmentBadge type={client.equipment_type} /></div>}
-        </div>
+      <div className="card p-4 mb-5">
+        {editing ? (
+          <div className="space-y-3">
+            <div>
+              <label className="label">Full name</label>
+              <div className="relative">
+                <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input className="input pl-10" value={editForm.full_name} onChange={e => setEditForm(f => ({ ...f, full_name: e.target.value }))} />
+              </div>
+            </div>
+            <div>
+              <label className="label">Phone</label>
+              <div className="relative">
+                <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input className="input pl-10" value={editForm.phone} onChange={e => setEditForm(f => ({ ...f, phone: e.target.value }))} />
+              </div>
+            </div>
+            <div className="flex gap-2 pt-1">
+              <button onClick={saveProfile} disabled={saving} className="btn-primary btn-sm">
+                <Save size={13} /> {saving ? 'Saving…' : 'Save'}
+              </button>
+              <button onClick={() => setEditing(false)} className="btn-secondary btn-sm">
+                <X size={13} /> Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-start gap-3.5">
+            <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center shrink-0">
+              <MapPin size={18} className="text-blue-600" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-bold text-slate-900">{client.full_name}</p>
+              {client.phone && <p className="text-sm text-slate-500">{client.phone}</p>}
+              <p className="text-sm text-slate-500 truncate">{client.property_address}</p>
+              {client.city && <p className="text-xs text-slate-400 mt-0.5">{client.city}</p>}
+              {client.equipment_type && <div className="mt-2"><EquipmentBadge type={client.equipment_type} /></div>}
+            </div>
+            <button
+              onClick={() => { setEditForm({ full_name: client.full_name || '', phone: client.phone || '' }); setEditing(true) }}
+              className="btn-ghost btn-sm shrink-0"
+            >
+              <Edit2 size={13} /> Edit
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Locations & Devices (if set up) */}
