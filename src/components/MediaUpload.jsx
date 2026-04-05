@@ -13,9 +13,9 @@ export default function MediaUpload({ jobId, mediaType, onUploaded }) {
   const inputRef = useRef(null)
 
   const configs = {
-    before:  { label: 'Before Photos',  accept: 'image/*',           icon: Image,    hint: 'Upload before-service photos' },
-    after:   { label: 'After Photos',   accept: 'image/*',           icon: Image,    hint: 'Upload after-service photos' },
-    invoice: { label: 'Invoice',        accept: '.pdf,image/*',      icon: FileText, hint: 'Upload PDF or image invoice' },
+    before:  { label: 'Vorher-Fotos',  accept: 'image/*',           icon: Image,    hint: 'Fotos vor dem Service hochladen' },
+    after:   { label: 'Nachher-Fotos', accept: 'image/*',           icon: Image,    hint: 'Fotos nach dem Service hochladen' },
+    invoice: { label: 'Rechnung',      accept: '.pdf,image/*',      icon: FileText, hint: 'Rechnung als PDF oder Foto hochladen' },
   }
   const { label, accept, icon: Icon, hint } = configs[mediaType]
 
@@ -93,9 +93,9 @@ export default function MediaUpload({ jobId, mediaType, onUploaded }) {
           </div>
           <div>
             <p className="text-sm font-semibold text-slate-700">
-              {uploading ? 'Uploading…' : `Upload ${label}`}
+              {uploading ? 'Hochladen…' : `${label} hochladen`}
             </p>
-            <p className="text-xs text-slate-400 mt-0.5">{hint} · drag & drop or click</p>
+            <p className="text-xs text-slate-400 mt-0.5">{hint} · Ziehen oder klicken</p>
           </div>
         </div>
       </div>

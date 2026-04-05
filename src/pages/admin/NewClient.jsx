@@ -43,16 +43,16 @@ export default function NewClient() {
   if (created) {
     return (
       <AdminLayout
-        title="Client added"
-        breadcrumbs={[{ label: 'Clients', href: '/admin' }, { label: 'New client' }]}
+        title="Kunde hinzugefügt"
+        breadcrumbs={[{ label: 'Kunden', href: '/admin' }, { label: 'Neuer Kunde' }]}
       >
         <div className="card p-8 max-w-lg animate-fade-in">
           <div className="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mb-5">
             <Check size={26} className="text-emerald-600" />
           </div>
-          <h2 className="text-xl font-bold text-slate-900 mb-1">{created.full_name} added</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-1">{created.full_name} hinzugefügt</h2>
           <p className="text-sm text-slate-500 mb-6 leading-relaxed">
-            Share the invite link below with your client. They'll click it to set their password and access their service records.
+            Senden Sie dem Kunden den untenstehenden Einladungslink. Er klickt darauf, legt sein Passwort fest und kann seine Servicehistorie einsehen.
           </p>
 
           <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex items-center gap-3 mb-5">
@@ -62,19 +62,19 @@ export default function NewClient() {
             </code>
             <button onClick={copyLink} className="btn-secondary btn-sm shrink-0">
               {copied ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}
-              {copied ? 'Copied!' : 'Copy'}
+              {copied ? 'Kopiert!' : 'Kopieren'}
             </button>
           </div>
 
           <div className="flex gap-3">
             <button onClick={() => navigate(`/admin/clients/${created.id}`)} className="btn-primary">
-              View client
+              Kunde anzeigen
             </button>
             <button
               onClick={() => { setCreated(null); setForm({ full_name: '', email: '', phone: '', property_address: '', city: '', equipment_type: '', property_notes: '' }) }}
               className="btn-secondary"
             >
-              Add another
+              Weiteren hinzufügen
             </button>
           </div>
         </div>
@@ -84,8 +84,8 @@ export default function NewClient() {
 
   return (
     <AdminLayout
-      title="Add new client"
-      breadcrumbs={[{ label: 'Clients', href: '/admin' }, { label: 'New client' }]}
+      title="Neuen Kunden hinzufügen"
+      breadcrumbs={[{ label: 'Kunden', href: '/admin' }, { label: 'Neuer Kunde' }]}
     >
       <div className="card p-6 max-w-xl">
         {error && <div className="form-error mb-5">{error}</div>}
@@ -93,39 +93,39 @@ export default function NewClient() {
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Name */}
           <div>
-            <label className="label">Full name *</label>
-            <input type="text" className="input" placeholder="e.g. John Murphy" value={form.full_name} onChange={update('full_name')} required />
+            <label className="label">Vollständiger Name *</label>
+            <input type="text" className="input" placeholder="z.B. Max Mustermann" value={form.full_name} onChange={update('full_name')} required />
           </div>
 
           {/* Contact */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="label">Email</label>
-              <input type="email" className="input" placeholder="client@email.com" value={form.email} onChange={update('email')} />
+              <label className="label">E-Mail</label>
+              <input type="email" className="input" placeholder="kunde@email.de" value={form.email} onChange={update('email')} />
             </div>
             <div>
-              <label className="label">Phone</label>
-              <input type="tel" className="input" placeholder="+353 87 000 0000" value={form.phone} onChange={update('phone')} />
+              <label className="label">Telefon</label>
+              <input type="tel" className="input" placeholder="+49 170 000 0000" value={form.phone} onChange={update('phone')} />
             </div>
           </div>
 
           {/* Primary address */}
           <div>
-            <label className="label">Primary address *</label>
-            <input type="text" className="input" placeholder="12 Oak Road, Dublin" value={form.property_address} onChange={update('property_address')} required />
-            <p className="text-xs text-slate-400 mt-1.5">You can add multiple locations after creating the client.</p>
+            <label className="label">Hauptadresse *</label>
+            <input type="text" className="input" placeholder="Musterstraße 12, Berlin" value={form.property_address} onChange={update('property_address')} required />
+            <p className="text-xs text-slate-400 mt-1.5">Sie können nach der Erstellung weitere Standorte hinzufügen.</p>
           </div>
 
           {/* City + Equipment type */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="label">City / Town</label>
-              <input type="text" className="input" placeholder="Dublin" value={form.city} onChange={update('city')} />
+              <label className="label">Stadt</label>
+              <input type="text" className="input" placeholder="Berlin" value={form.city} onChange={update('city')} />
             </div>
             <div>
-              <label className="label">Primary equipment <span className="label-hint">(optional)</span></label>
+              <label className="label">Hauptanlage <span className="label-hint">(optional)</span></label>
               <select className="input" value={form.equipment_type} onChange={update('equipment_type')}>
-                <option value="">Select type…</option>
+                <option value="">Typ auswählen…</option>
                 {EQUIPMENT_OPTIONS.map(opt => (
                   <option key={opt.value} value={opt.value}>{opt.label}</option>
                 ))}
@@ -135,11 +135,11 @@ export default function NewClient() {
 
           {/* Notes */}
           <div>
-            <label className="label">Property notes <span className="label-hint">(optional)</span></label>
+            <label className="label">Anmerkungen <span className="label-hint">(optional)</span></label>
             <textarea
               className="input resize-none"
               rows={3}
-              placeholder="Access instructions, gate codes, special notes…"
+              placeholder="Zugangsinformationen, Codes, besondere Hinweise…"
               value={form.property_notes}
               onChange={update('property_notes')}
             />
@@ -147,10 +147,10 @@ export default function NewClient() {
 
           <div className="flex gap-3 pt-1">
             <button type="submit" className="btn-primary" disabled={loading}>
-              {loading ? 'Saving…' : 'Save client'}
+              {loading ? 'Speichern…' : 'Kunden speichern'}
             </button>
             <button type="button" className="btn-secondary" onClick={() => navigate('/admin')}>
-              Cancel
+              Abbrechen
             </button>
           </div>
         </form>

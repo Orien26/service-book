@@ -21,7 +21,7 @@ create table public.app_config (
   value text not null
 );
 -- Insert your admin email here:
-insert into public.app_config (key, value) values ('admin_email', 'simlogo17@gmail.com');
+insert into public.app_config (key, value) values ('admin_email', 'dannsnetwork@gmail.com');
 
 -- ─── Helper: get current user role (security definer bypasses RLS) ───────────
 -- Defined BEFORE policies so all policies can use it without infinite recursion.

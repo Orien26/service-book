@@ -1,8 +1,8 @@
 const CONFIGS = {
-  heat_pump:  { label: 'Heat Pump',  cls: 'equip-heat_pump' },
-  oil_boiler: { label: 'Oil Boiler', cls: 'equip-oil_boiler' },
-  gas_boiler: { label: 'Gas Boiler', cls: 'equip-gas_boiler' },
-  other:      { label: 'Other',      cls: 'equip-other' },
+  heat_pump:  { label: 'Wärmepumpe',  cls: 'equip-heat_pump' },
+  oil_boiler: { label: 'Ölheizung', cls: 'equip-oil_boiler' },
+  gas_boiler: { label: 'Gasheizung', cls: 'equip-gas_boiler' },
+  other:      { label: 'Sonstiges',      cls: 'equip-other' },
 }
 
 export default function EquipmentBadge({ type }) {
@@ -12,15 +12,15 @@ export default function EquipmentBadge({ type }) {
 }
 
 export const EQUIPMENT_OPTIONS = [
-  { value: 'heat_pump',  label: 'Heat Pump' },
-  { value: 'oil_boiler', label: 'Oil Boiler' },
-  { value: 'gas_boiler', label: 'Gas Boiler' },
-  { value: 'other',      label: 'Other' },
+  { value: 'heat_pump',  label: 'Wärmepumpe' },
+  { value: 'oil_boiler', label: 'Ölheizung' },
+  { value: 'gas_boiler', label: 'Gasheizung' },
+  { value: 'other',      label: 'Sonstiges' },
 ]
 
 export const EQUIPMENT_LABELS = {
-  heat_pump:  'Heat Pump',
-  oil_boiler: 'Oil Boiler',
-  gas_boiler: 'Gas Boiler',
-  other:      'Other',
+  heat_pump:  'Wärmepumpe',
+  oil_boiler: 'Ölheizung',
+  gas_boiler: 'Gasheizung',
+  other:      'Sonstiges',
 }

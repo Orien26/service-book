@@ -30,7 +30,7 @@ function Field({ label, value }) {
 
 function formatDate(d) {
   if (!d) return '—'
-  return new Date(d).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })
+  return new Date(d).toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' })
 }
 
 export default function ClientJobDetail() {
@@ -72,7 +72,7 @@ export default function ClientJobDetail() {
       </ClientLayout>
     )
   }
-  if (!job) return <ClientLayout><p className="text-slate-500">Job not found.</p></ClientLayout>
+  if (!job) return <ClientLayout><p className="text-slate-500">Auftrag nicht gefunden.</p></ClientLayout>
 
   const calendarParams = {
     jobTitle: job.title,
@@ -84,7 +84,7 @@ export default function ClientJobDetail() {
   return (
     <ClientLayout
       title={job.title}
-      breadcrumbs={[{ label: 'My records', href: '/dashboard' }, { label: job.title }]}
+      breadcrumbs={[{ label: 'Meine Unterlagen', href: '/dashboard' }, { label: job.title }]}
     >
       <div className={`space-y-4 ${job.is_archived ? 'archived-row' : ''}`}>
 
@@ -92,13 +92,13 @@ export default function ClientJobDetail() {
         <div className="card p-4 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3 flex-wrap">
             {job.is_archived ? (
-              <span className="badge-slate text-sm px-3 py-1.5"><Archive size={13} className="mr-1" />Archived record</span>
+              <span className="badge-slate text-sm px-3 py-1.5"><Archive size={13} className="mr-1" />Archivierter Eintrag</span>
             ) : job.status === 'completed' ? (
-              <span className="badge-green text-sm px-3 py-1.5"><CheckCircle size={13} className="mr-1" />Completed</span>
+              <span className="badge-green text-sm px-3 py-1.5"><CheckCircle size={13} className="mr-1" />Abgeschlossen</span>
             ) : (
-              <span className="badge-yellow text-sm px-3 py-1.5"><Clock size={13} className="mr-1" />In progress</span>
+              <span className="badge-yellow text-sm px-3 py-1.5"><Clock size={13} className="mr-1" />In Bearbeitung</span>
             )}
-            <span className="text-sm text-slate-500">Serviced on {formatDate(job.service_date)}</span>
+            <span className="text-sm text-slate-500">Gewartet am {formatDate(job.service_date)}</span>
           </div>
 
           {job.status === 'completed' && !job.is_archived && (
@@ -109,7 +109,7 @@ export default function ClientJobDetail() {
                 rel="noopener noreferrer"
                 className="btn-secondary btn-sm"
               >
-                <Calendar size={13} /> Add reminder
+                <Calendar size={13} /> Erinnerung hinzufügen
               </a>
               <button onClick={() => downloadIcsFile(calendarParams)} className="btn-secondary btn-sm">
                 <Download size={13} /> .ics
@@ -148,29 +148,29 @@ export default function ClientJobDetail() {
           <div className="card p-4 border-amber-200 bg-amber-50 flex items-start gap-3">
             <Archive size={16} className="text-amber-600 shrink-0 mt-0.5" />
             <p className="text-sm text-amber-800">
-              This is an archived service record. The information is kept for your records but is no longer active.
+              Dies ist ein archivierter Serviceeintrag. Die Informationen werden für Ihre Unterlagen gespeichert, sind aber nicht mehr aktiv.
             </p>
           </div>
         )}
 
         {/* Service details */}
         {(job.issue_description || job.work_done || job.parts_replaced || job.total_amount) && (
-          <Section title="Service details">
+          <Section title="Servicedetails">
             <div className="space-y-5">
-              <Field label="Issue reported"            value={job.issue_description} />
-              <Field label="Work done"                 value={job.work_done} />
-              <Field label="Parts / materials replaced" value={job.parts_replaced} />
+              <Field label="Gemeldetes Problem"              value={job.issue_description} />
+              <Field label="Durchgeführte Arbeiten"         value={job.work_done} />
+              <Field label="Ausgetauschte Teile / Materialien" value={job.parts_replaced} />
               {job.total_amount && (
                 <div>
-                  <p className="section-title mb-1.5">Invoice amount</p>
+                  <p className="section-title mb-1.5">Rechnungsbetrag</p>
                   <p className="text-sm font-bold text-slate-900">
-                    {job.currency} {Number(job.total_amount).toLocaleString()}
+                    {job.currency} {Number(job.total_amount).toLocaleString('de-DE')}
                   </p>
                 </div>
               )}
               {job.next_service_date && (
                 <div>
-                  <p className="section-title mb-1.5">Next service due</p>
+                  <p className="section-title mb-1.5">Nächster Service fällig</p>
                   <p className="text-sm font-semibold text-blue-700">{formatDate(job.next_service_date)}</p>
                 </div>
               )}
@@ -179,24 +179,24 @@ export default function ClientJobDetail() {
         )}
 
         {/* Before photos */}
-        <Section title="Before photos">
+        <Section title="Vorher-Fotos">
           <MediaGallery media={media.filter(m => m.media_type === 'before')} />
         </Section>
 
         {/* After photos */}
-        <Section title="After photos">
+        <Section title="Nachher-Fotos">
           <MediaGallery media={media.filter(m => m.media_type === 'after')} />
         </Section>
 
         {/* Invoice */}
-        <Section title="Invoice">
+        <Section title="Rechnung">
           <MediaGallery media={media.filter(m => m.media_type === 'invoice')} />
         </Section>
 
         {/* Messages */}
-        <Section title="Messages">
+        <Section title="Nachrichten">
           <div className="space-y-3">
-            <HelpTip>You can send a message to your technician here — for example to ask a question about this job or request a follow-up.</HelpTip>
+            <HelpTip>Sie können hier eine Nachricht an Ihren Techniker senden – z.B. eine Frage zu diesem Auftrag oder eine Anfrage für einen Folgetermin.</HelpTip>
             <CommentThread jobId={jobId} comments={comments} onNewComment={c => setComments(prev => [...prev, c])} />
           </div>
         </Section>

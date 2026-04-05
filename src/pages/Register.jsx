@@ -21,8 +21,8 @@ export default function Register() {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    if (form.password !== form.confirm) { setError('Passwords do not match.'); return }
-    if (form.password.length < 6)       { setError('Password must be at least 6 characters.'); return }
+    if (form.password !== form.confirm) { setError('Passwörter stimmen nicht überein.'); return }
+    if (form.password.length < 6)       { setError('Das Passwort muss mindestens 6 Zeichen lang sein.'); return }
     setLoading(true)
     setError(null)
     try {
@@ -49,18 +49,18 @@ export default function Register() {
           </div>
           <div>
             <p className="text-base font-bold text-slate-900">Service Book</p>
-            <p className="text-xs text-slate-500">Heating Systems</p>
+            <p className="text-xs text-slate-500">Heizsysteme</p>
           </div>
         </div>
 
         <div className="mb-7">
           <h1 className="text-2xl font-bold text-slate-900">
-            {isInvite ? 'Access your service records' : 'Create your account'}
+            {isInvite ? 'Auf Ihre Servicehistorie zugreifen' : 'Konto erstellen'}
           </h1>
           <p className="text-sm text-slate-500 mt-1">
             {isInvite
-              ? 'Your records are ready. Enter your email and choose a password to get started.'
-              : 'Set your password to access your service records'}
+              ? 'Ihre Unterlagen sind bereit. Geben Sie Ihre E-Mail-Adresse ein und wählen Sie ein Passwort.'
+              : 'Legen Sie Ihr Passwort fest, um auf Ihre Servicehistorie zuzugreifen'}
           </p>
         </div>
 
@@ -70,38 +70,38 @@ export default function Register() {
           {!isInvite && (
             <>
               <div>
-                <label className="label">Full name</label>
+                <label className="label">Vollständiger Name</label>
                 <div className="relative">
                   <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                  <input type="text" className="input pl-10" placeholder="Your full name" value={form.fullName} onChange={update('fullName')} required />
+                  <input type="text" className="input pl-10" placeholder="Ihr vollständiger Name" value={form.fullName} onChange={update('fullName')} required />
                 </div>
               </div>
               <div>
-                <label className="label">Phone <span className="label-hint">(optional)</span></label>
+                <label className="label">Telefon <span className="label-hint">(optional)</span></label>
                 <div className="relative">
                   <Phone size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                  <input type="tel" className="input pl-10" placeholder="+353 87 000 0000" value={form.phone} onChange={update('phone')} />
+                  <input type="tel" className="input pl-10" placeholder="+49 170 000 0000" value={form.phone} onChange={update('phone')} />
                 </div>
               </div>
             </>
           )}
 
           <div>
-            <label className="label">Email address</label>
+            <label className="label">E-Mail-Adresse</label>
             <div className="relative">
               <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input type="email" className="input pl-10" placeholder="you@example.com" value={form.email} onChange={update('email')} required autoComplete="email" />
+              <input type="email" className="input pl-10" placeholder="ihre@email.de" value={form.email} onChange={update('email')} required autoComplete="email" />
             </div>
           </div>
 
           <div>
-            <label className="label">Password</label>
+            <label className="label">Passwort</label>
             <div className="relative">
               <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 type={showPass ? 'text' : 'password'}
                 className="input pl-10 pr-11"
-                placeholder="Min. 6 characters"
+                placeholder="Mind. 6 Zeichen"
                 value={form.password}
                 onChange={update('password')}
                 required
@@ -114,10 +114,10 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="label">Confirm password</label>
+            <label className="label">Passwort bestätigen</label>
             <div className="relative">
               <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input type="password" className="input pl-10" placeholder="Repeat your password" value={form.confirm} onChange={update('confirm')} required autoComplete="new-password" />
+              <input type="password" className="input pl-10" placeholder="Passwort wiederholen" value={form.confirm} onChange={update('confirm')} required autoComplete="new-password" />
             </div>
           </div>
 
@@ -125,15 +125,15 @@ export default function Register() {
             {loading ? (
               <span className="flex items-center gap-2">
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                {isInvite ? 'Setting up…' : 'Creating account…'}
+                {isInvite ? 'Einrichten…' : 'Konto erstellen…'}
               </span>
-            ) : (isInvite ? 'Access my records' : 'Create account')}
+            ) : (isInvite ? 'Meine Unterlagen ansehen' : 'Konto erstellen')}
           </button>
         </form>
 
         <p className="mt-6 text-center text-sm text-slate-500">
-          Already have an account?{' '}
-          <Link to="/login" className="text-blue-600 hover:text-blue-700 font-semibold transition-colors">Sign in</Link>
+          Haben Sie bereits ein Konto?{' '}
+          <Link to="/login" className="text-blue-600 hover:text-blue-700 font-semibold transition-colors">Anmelden</Link>
         </p>
       </div>
     </div>

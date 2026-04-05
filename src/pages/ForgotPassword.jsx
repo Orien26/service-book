@@ -33,7 +33,7 @@ export default function ForgotPassword() {
           </div>
           <div>
             <p className="text-base font-bold text-slate-900">Service Book</p>
-            <p className="text-xs text-slate-500">Heating Systems</p>
+            <p className="text-xs text-slate-500">Heizsysteme</p>
           </div>
         </div>
 
@@ -42,32 +42,32 @@ export default function ForgotPassword() {
             <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle size={26} className="text-emerald-600" />
             </div>
-            <h2 className="text-lg font-bold text-slate-900 mb-2">Check your email</h2>
+            <h2 className="text-lg font-bold text-slate-900 mb-2">E-Mail überprüfen</h2>
             <p className="text-sm text-slate-500 leading-relaxed">
-              We sent a password reset link to <strong className="text-slate-700">{email}</strong>.
+              Wir haben einen Link zum Zurücksetzen des Passworts gesendet an <strong className="text-slate-700">{email}</strong>.
             </p>
             <Link to="/login" className="btn-primary mt-6 w-full justify-center">
-              Back to sign in
+              Zurück zur Anmeldung
             </Link>
           </div>
         ) : (
           <>
             <div className="mb-7">
-              <h1 className="text-2xl font-bold text-slate-900">Reset your password</h1>
-              <p className="text-sm text-slate-500 mt-1">Enter your email and we'll send you a reset link.</p>
+              <h1 className="text-2xl font-bold text-slate-900">Passwort zurücksetzen</h1>
+              <p className="text-sm text-slate-500 mt-1">Geben Sie Ihre E-Mail-Adresse ein, wir senden Ihnen einen Link.</p>
             </div>
 
             {error && <div className="form-error mb-5">{error}</div>}
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="label">Email address</label>
+                <label className="label">E-Mail-Adresse</label>
                 <div className="relative">
                   <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                   <input
                     type="email"
                     className="input pl-10"
-                    placeholder="you@example.com"
+                    placeholder="ihre@email.de"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -79,14 +79,14 @@ export default function ForgotPassword() {
                 {loading ? (
                   <span className="flex items-center gap-2">
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Sending…
+                    Senden…
                   </span>
-                ) : 'Send reset link'}
+                ) : 'Link senden'}
               </button>
             </form>
 
             <p className="mt-6 text-center text-sm text-slate-500">
-              <Link to="/login" className="text-blue-600 hover:text-blue-700 font-semibold transition-colors">Back to sign in</Link>
+              <Link to="/login" className="text-blue-600 hover:text-blue-700 font-semibold transition-colors">Zurück zur Anmeldung</Link>
             </p>
           </>
         )}

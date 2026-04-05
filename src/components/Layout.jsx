@@ -26,7 +26,7 @@ export function AdminLayout({ children, title, breadcrumbs = [] }) {
           </div>
           <div>
             <p className="text-sm font-bold text-white leading-tight">Service Book</p>
-            <p className="text-[11px] text-slate-400 leading-tight">Heating Systems</p>
+            <p className="text-[11px] text-slate-400 leading-tight">Heizsysteme</p>
           </div>
         </div>
       </div>
@@ -37,7 +37,7 @@ export function AdminLayout({ children, title, breadcrumbs = [] }) {
         <NavItem
           to="/admin"
           icon={<LayoutDashboard size={16} />}
-          label="All Clients"
+          label="Alle Kunden"
           active={location.pathname.startsWith('/admin')}
           onClick={() => setMobileOpen(false)}
         />
@@ -61,7 +61,7 @@ export function AdminLayout({ children, title, breadcrumbs = [] }) {
           className="w-full flex items-center gap-2 px-3 py-2 text-sm text-slate-400 hover:text-white hover:bg-white/10 rounded-xl transition-colors"
         >
           <LogOut size={15} />
-          Sign out
+          Abmelden
         </button>
       </div>
     </div>
@@ -154,7 +154,7 @@ export function ClientLayout({ children, title, breadcrumbs = [] }) {
             </div>
             <div>
               <span className="text-sm font-bold text-slate-900">Service Book</span>
-              <span className="hidden sm:inline text-xs text-slate-400 ml-2">Heating Systems</span>
+              <span className="hidden sm:inline text-xs text-slate-400 ml-2">Heizsysteme</span>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -164,7 +164,7 @@ export function ClientLayout({ children, title, breadcrumbs = [] }) {
               className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100"
             >
               <LogOut size={14} />
-              <span className="hidden sm:block">Sign out</span>
+              <span className="hidden sm:block">Abmelden</span>
             </button>
           </div>
         </div>

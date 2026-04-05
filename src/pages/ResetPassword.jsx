@@ -13,8 +13,8 @@ export default function ResetPassword() {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    if (password !== confirm) { setError('Passwords do not match.'); return }
-    if (password.length < 6)  { setError('Password must be at least 6 characters.'); return }
+    if (password !== confirm) { setError('Passwörter stimmen nicht überein.'); return }
+    if (password.length < 6)  { setError('Das Passwort muss mindestens 6 Zeichen lang sein.'); return }
     setLoading(true)
     setError(null)
     const { error } = await supabase.auth.updateUser({ password })
@@ -35,26 +35,26 @@ export default function ResetPassword() {
           </div>
           <div>
             <p className="text-base font-bold text-slate-900">Service Book</p>
-            <p className="text-xs text-slate-500">Heating Systems</p>
+            <p className="text-xs text-slate-500">Heizsysteme</p>
           </div>
         </div>
 
         <div className="mb-7">
-          <h1 className="text-2xl font-bold text-slate-900">Set new password</h1>
-          <p className="text-sm text-slate-500 mt-1">Choose a new password for your account.</p>
+          <h1 className="text-2xl font-bold text-slate-900">Neues Passwort festlegen</h1>
+          <p className="text-sm text-slate-500 mt-1">Wählen Sie ein neues Passwort für Ihr Konto.</p>
         </div>
 
         {error && <div className="form-error mb-5">{error}</div>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="label">New password</label>
+            <label className="label">Neues Passwort</label>
             <div className="relative">
               <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 type={showPass ? 'text' : 'password'}
                 className="input pl-10 pr-11"
-                placeholder="Min. 6 characters"
+                placeholder="Mind. 6 Zeichen"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -67,13 +67,13 @@ export default function ResetPassword() {
           </div>
 
           <div>
-            <label className="label">Confirm new password</label>
+            <label className="label">Neues Passwort bestätigen</label>
             <div className="relative">
               <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 type="password"
                 className="input pl-10"
-                placeholder="Repeat your password"
+                placeholder="Passwort wiederholen"
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
                 required
@@ -86,9 +86,9 @@ export default function ResetPassword() {
             {loading ? (
               <span className="flex items-center gap-2">
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Updating…
+                Aktualisieren…
               </span>
-            ) : 'Update password'}
+            ) : 'Passwort aktualisieren'}
           </button>
         </form>
       </div>

@@ -38,11 +38,11 @@ export default function NewLocation() {
 
   return (
     <AdminLayout
-      title="Add location"
+      title="Standort hinzufügen"
       breadcrumbs={[
-        { label: 'Clients', href: '/admin' },
+        { label: 'Kunden', href: '/admin' },
         { label: client?.full_name || '…', href: `/admin/clients/${clientId}` },
-        { label: 'Add location' },
+        { label: 'Standort hinzufügen' },
       ]}
     >
       <div className="card p-6 max-w-lg">
@@ -51,7 +51,7 @@ export default function NewLocation() {
             <MapPin size={18} className="text-blue-600" />
           </div>
           <div>
-            <p className="font-semibold text-slate-900">New location</p>
+            <p className="font-semibold text-slate-900">Neuer Standort</p>
             <p className="text-sm text-slate-500">{client?.full_name}</p>
           </div>
         </div>
@@ -60,21 +60,21 @@ export default function NewLocation() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="label">Address *</label>
-            <input type="text" className="input" placeholder="15 Church Street, Cork" value={form.address} onChange={update('address')} required />
+            <label className="label">Adresse *</label>
+            <input type="text" className="input" placeholder="Musterstraße 15, Berlin" value={form.address} onChange={update('address')} required />
           </div>
 
           <div>
-            <label className="label">City / Town</label>
-            <input type="text" className="input" placeholder="Cork" value={form.city} onChange={update('city')} />
+            <label className="label">Stadt</label>
+            <input type="text" className="input" placeholder="Berlin" value={form.city} onChange={update('city')} />
           </div>
 
           <div>
-            <label className="label">Notes <span className="label-hint">(optional)</span></label>
+            <label className="label">Anmerkungen <span className="label-hint">(optional)</span></label>
             <textarea
               className="input resize-none"
               rows={3}
-              placeholder="Access instructions, gate code, unit location…"
+              placeholder="Zugangsinformationen, Code, Lage im Gebäude…"
               value={form.notes}
               onChange={update('notes')}
             />
@@ -88,17 +88,17 @@ export default function NewLocation() {
               onChange={update('is_primary')}
             />
             <div>
-              <span className="text-sm font-semibold text-slate-700">Mark as primary address</span>
-              <p className="text-xs text-slate-400">Shown first in the client's profile</p>
+              <span className="text-sm font-semibold text-slate-700">Als Hauptadresse markieren</span>
+              <p className="text-xs text-slate-400">Wird zuerst im Kundenprofil angezeigt</p>
             </div>
           </label>
 
           <div className="flex gap-3 pt-2">
             <button type="submit" className="btn-primary" disabled={loading}>
-              {loading ? 'Saving…' : 'Save location'}
+              {loading ? 'Speichern…' : 'Standort speichern'}
             </button>
             <button type="button" className="btn-secondary" onClick={() => navigate(`/admin/clients/${clientId}`)}>
-              Cancel
+              Abbrechen
             </button>
           </div>
         </form>

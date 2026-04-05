@@ -44,11 +44,11 @@ export default function NewDevice() {
 
   return (
     <AdminLayout
-      title="Add device"
+      title="Gerät hinzufügen"
       breadcrumbs={[
-        { label: 'Clients', href: '/admin' },
+        { label: 'Kunden', href: '/admin' },
         { label: location?.clients?.full_name || '…', href: `/admin/clients/${location?.clients?.id}` },
-        { label: 'Add device' },
+        { label: 'Gerät hinzufügen' },
       ]}
     >
       <div className="card p-6 max-w-lg">
@@ -57,7 +57,7 @@ export default function NewDevice() {
             <Cpu size={18} className="text-slate-600" />
           </div>
           <div>
-            <p className="font-semibold text-slate-900">New device</p>
+            <p className="font-semibold text-slate-900">Neues Gerät</p>
             <p className="text-sm text-slate-500">{location?.address}</p>
           </div>
         </div>
@@ -66,9 +66,9 @@ export default function NewDevice() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="label">Equipment type *</label>
+            <label className="label">Gerätetyp *</label>
             <select className="input" value={form.equipment_type} onChange={update('equipment_type')} required>
-              <option value="">Select type…</option>
+              <option value="">Typ auswählen…</option>
               {EQUIPMENT_OPTIONS.map(opt => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
               ))}
@@ -77,32 +77,32 @@ export default function NewDevice() {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="label">Manufacturer</label>
-              <input type="text" className="input" placeholder="e.g. LG, Viessmann, Worcester" value={form.manufacturer} onChange={update('manufacturer')} />
+              <label className="label">Hersteller</label>
+              <input type="text" className="input" placeholder="z.B. LG, Viessmann, Buderus" value={form.manufacturer} onChange={update('manufacturer')} />
             </div>
             <div>
-              <label className="label">Model</label>
-              <input type="text" className="input" placeholder="e.g. Therma V R32" value={form.model} onChange={update('model')} />
+              <label className="label">Modell</label>
+              <input type="text" className="input" placeholder="z.B. Vitocal 200" value={form.model} onChange={update('model')} />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="label">Serial number <span className="label-hint">(optional)</span></label>
+              <label className="label">Seriennummer <span className="label-hint">(optional)</span></label>
               <input type="text" className="input" placeholder="S/N…" value={form.serial_number} onChange={update('serial_number')} />
             </div>
             <div>
-              <label className="label">Installed date <span className="label-hint">(optional)</span></label>
+              <label className="label">Installationsdatum <span className="label-hint">(optional)</span></label>
               <input type="date" className="input" value={form.installed_date} onChange={update('installed_date')} />
             </div>
           </div>
 
           <div>
-            <label className="label">Notes <span className="label-hint">(optional)</span></label>
+            <label className="label">Anmerkungen <span className="label-hint">(optional)</span></label>
             <textarea
               className="input resize-none"
               rows={3}
-              placeholder="Location in building, known issues, access requirements…"
+              placeholder="Position im Gebäude, bekannte Probleme, Zugangsanforderungen…"
               value={form.notes}
               onChange={update('notes')}
             />
@@ -110,10 +110,10 @@ export default function NewDevice() {
 
           <div className="flex gap-3 pt-2">
             <button type="submit" className="btn-primary" disabled={loading}>
-              {loading ? 'Saving…' : 'Save device'}
+              {loading ? 'Speichern…' : 'Gerät speichern'}
             </button>
             <button type="button" className="btn-secondary" onClick={() => navigate(`/admin/clients/${location?.clients?.id}`)}>
-              Cancel
+              Abbrechen
             </button>
           </div>
         </form>

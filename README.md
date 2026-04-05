@@ -192,3 +192,5 @@ client-dashboard/
 - **Signed URLs** for media expire after 1 hour. Each page load fetches fresh URLs.
 - **Audit log** table records all admin actions for accountability.
 - The app is fully mobile-friendly — clients can use it on their phones.
+
+cloudflare: jwhmAE:HzE.Gb4F

@@ -18,7 +18,7 @@ export default function Login() {
     try {
       await signIn(email.trim(), password)
     } catch {
-      setError('Incorrect email or password. Please try again.')
+      setError('Falsche E-Mail-Adresse oder falsches Passwort. Bitte versuchen Sie es erneut.')
       setLoading(false)
     }
   }
@@ -33,22 +33,22 @@ export default function Login() {
           </div>
           <div>
             <p className="text-base font-bold text-white">Service Book</p>
-            <p className="text-xs text-slate-400">Heating Systems</p>
+            <p className="text-xs text-slate-400">Heizsysteme</p>
           </div>
         </div>
 
         <div>
           <h2 className="text-3xl font-bold text-white leading-tight mb-4">
-            Your complete<br />service record,<br />always accessible.
+            Ihr vollständiges<br />Servicebuch,<br />immer verfügbar.
           </h2>
           <p className="text-slate-400 text-sm leading-relaxed">
-            Heat pumps · Oil boilers · Gas boilers. Every job, photo, invoice and service history — organised and permanent.
+            Wärmepumpen · Ölheizungen · Gasheizungen. Jeder Auftrag, jedes Foto, jede Rechnung – organisiert und dauerhaft gespeichert.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="w-2 h-2 rounded-full bg-emerald-400" />
-          <p className="text-xs text-slate-400">Secure · Private · Always available</p>
+          <p className="text-xs text-slate-400">Sicher · Privat · Immer verfügbar</p>
         </div>
       </div>
 
@@ -62,13 +62,13 @@ export default function Login() {
             </div>
             <div>
               <p className="text-base font-bold text-slate-900">Service Book</p>
-              <p className="text-xs text-slate-500">Heating Systems</p>
+              <p className="text-xs text-slate-500">Heizsysteme</p>
             </div>
           </div>
 
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-slate-900">Welcome back</h1>
-            <p className="text-sm text-slate-500 mt-1">Sign in to access your service records</p>
+            <h1 className="text-2xl font-bold text-slate-900">Willkommen zurück</h1>
+            <p className="text-sm text-slate-500 mt-1">Melden Sie sich an, um Ihre Servicehistorie anzuzeigen</p>
           </div>
 
           {error && (
@@ -77,13 +77,13 @@ export default function Login() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="label">Email address</label>
+              <label className="label">E-Mail-Adresse</label>
               <div className="relative">
                 <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type="email"
                   className="input pl-10"
-                  placeholder="you@example.com"
+                  placeholder="ihre@email.de"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -94,9 +94,9 @@ export default function Login() {
 
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="label mb-0">Password</label>
+                <label className="label mb-0">Passwort</label>
                 <Link to="/forgot-password" className="text-xs text-blue-600 hover:text-blue-700 font-medium transition-colors">
-                  Forgot password?
+                  Passwort vergessen?
                 </Link>
               </div>
               <div className="relative">
@@ -104,7 +104,7 @@ export default function Login() {
                 <input
                   type={showPass ? 'text' : 'password'}
                   className="input pl-10 pr-11"
-                  placeholder="Your password"
+                  placeholder="Ihr Passwort"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -124,16 +124,16 @@ export default function Login() {
               {loading ? (
                 <span className="flex items-center gap-2">
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Signing in…
+                  Anmelden…
                 </span>
-              ) : 'Sign in'}
+              ) : 'Anmelden'}
             </button>
           </form>
 
           <p className="mt-6 text-center text-sm text-slate-500">
-            First time here?{' '}
+            Erstmals hier?{' '}
             <Link to="/register" className="text-blue-600 hover:text-blue-700 font-semibold transition-colors">
-              Create your account
+              Konto erstellen
             </Link>
           </p>
         </div>

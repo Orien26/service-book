@@ -100,11 +100,11 @@ export default function NewJob() {
 
   return (
     <AdminLayout
-      title="New service job"
+      title="Neuer Serviceauftrag"
       breadcrumbs={[
-        { label: 'Clients', href: '/admin' },
+        { label: 'Kunden', href: '/admin' },
         { label: client?.full_name || '…', href: backHref },
-        { label: 'New job' },
+        { label: 'Neuer Auftrag' },
       ]}
     >
       <div className="card p-6 max-w-2xl">
@@ -129,11 +129,11 @@ export default function NewJob() {
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="label">Job title *</label>
+            <label className="label">Auftragsbezeichnung *</label>
             <input
               type="text"
               className="input"
-              placeholder="e.g. Annual heat pump service, Oil boiler repair"
+              placeholder="z.B. Jahresinspektion Wärmepumpe, Ölheizung reparieren"
               value={form.title}
               onChange={update('title')}
               required
@@ -144,21 +144,21 @@ export default function NewJob() {
           {!deviceId && locations.length > 0 && (
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="label">Location <span className="label-hint">(optional)</span></label>
+                <label className="label">Standort <span className="label-hint">(optional)</span></label>
                 <select className="input" value={form.location_id} onChange={update('location_id')}>
-                  <option value="">No specific location</option>
+                  <option value="">Kein bestimmter Standort</option>
                   {locations.map(l => (
                     <option key={l.id} value={l.id}>{l.address}{l.city ? `, ${l.city}` : ''}</option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="label">Device <span className="label-hint">(optional)</span></label>
+                <label className="label">Gerät <span className="label-hint">(optional)</span></label>
                 <select className="input" value={form.device_id} onChange={update('device_id')} disabled={!form.location_id}>
-                  <option value="">No specific device</option>
+                  <option value="">Kein bestimmtes Gerät</option>
                   {devices.map(d => (
                     <option key={d.id} value={d.id}>
-                      {d.manufacturer ? `${d.manufacturer} ${d.model || ''}`.trim() : d.model || 'Unknown'}
+                      {d.manufacturer ? `${d.manufacturer} ${d.model || ''}`.trim() : d.model || 'Unbekannt'}
                     </option>
                   ))}
                 </select>
@@ -167,33 +167,33 @@ export default function NewJob() {
           )}
 
           <div>
-            <label className="label">Issue description</label>
+            <label className="label">Problembeschreibung</label>
             <textarea
               className="input resize-none"
               rows={3}
-              placeholder="What was reported or found broken? What were the symptoms?"
+              placeholder="Was wurde gemeldet oder festgestellt? Welche Symptome lagen vor?"
               value={form.issue_description}
               onChange={update('issue_description')}
             />
           </div>
 
           <div>
-            <label className="label">Work done</label>
+            <label className="label">Durchgeführte Arbeiten</label>
             <textarea
               className="input resize-none"
               rows={3}
-              placeholder="What was repaired, replaced, or serviced?"
+              placeholder="Was wurde repariert, ausgetauscht oder gewartet?"
               value={form.work_done}
               onChange={update('work_done')}
             />
           </div>
 
           <div>
-            <label className="label">Parts / materials replaced</label>
+            <label className="label">Ausgetauschte Teile / Materialien</label>
             <textarea
               className="input resize-none"
               rows={2}
-              placeholder="e.g. Heat exchanger, refrigerant top-up, filter, 2x pipe fittings…"
+              placeholder="z.B. Wärmetauscher, Kältemittel, Filter, 2× Rohrverbindungen…"
               value={form.parts_replaced}
               onChange={update('parts_replaced')}
             />
@@ -201,18 +201,18 @@ export default function NewJob() {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="label">Service date *</label>
+              <label className="label">Servicedatum *</label>
               <input type="date" className="input" value={form.service_date} onChange={update('service_date')} required />
             </div>
             <div>
-              <label className="label">Next service date <span className="label-hint">(optional)</span></label>
+              <label className="label">Nächster Servicetermin <span className="label-hint">(optional)</span></label>
               <input type="date" className="input" value={form.next_service_date} onChange={update('next_service_date')} />
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
             <div className="col-span-2">
-              <label className="label">Invoice amount <span className="label-hint">(optional)</span></label>
+              <label className="label">Rechnungsbetrag <span className="label-hint">(optional)</span></label>
               <input
                 type="number"
                 className="input"
@@ -224,7 +224,7 @@ export default function NewJob() {
               />
             </div>
             <div>
-              <label className="label">Currency</label>
+              <label className="label">Währung</label>
               <select className="input" value={form.currency} onChange={update('currency')}>
                 <option value="CHF">CHF Fr</option>
                 <option value="EUR">EUR €</option>
@@ -236,17 +236,17 @@ export default function NewJob() {
           <div>
             <label className="label">Status</label>
             <select className="input" value={form.status} onChange={update('status')}>
-              <option value="in_progress">In progress</option>
-              <option value="completed">Completed</option>
+              <option value="in_progress">In Bearbeitung</option>
+              <option value="completed">Abgeschlossen</option>
             </select>
           </div>
 
           <div className="flex gap-3 pt-2">
             <button type="submit" className="btn-primary" disabled={loading}>
-              {loading ? 'Creating…' : 'Create job'}
+              {loading ? 'Erstellen…' : 'Auftrag erstellen'}
             </button>
             <button type="button" className="btn-secondary" onClick={() => navigate(backHref)}>
-              Cancel
+              Abbrechen
             </button>
           </div>
         </form>

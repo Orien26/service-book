@@ -11,15 +11,15 @@ import EquipmentBadge from '../../components/EquipmentBadge'
 import HelpTip from '../../components/HelpTip'
 
 function StatusBadge({ status, isArchived }) {
-  if (isArchived) return <span className="badge-slate"><Archive size={10} className="mr-0.5" />Archived</span>
+  if (isArchived) return <span className="badge-slate"><Archive size={10} className="mr-0.5" />Archiviert</span>
   return status === 'completed'
-    ? <span className="badge-green"><CheckCircle size={10} className="mr-0.5" />Completed</span>
-    : <span className="badge-yellow"><Clock size={10} className="mr-0.5" />In progress</span>
+    ? <span className="badge-green"><CheckCircle size={10} className="mr-0.5" />Abgeschlossen</span>
+    : <span className="badge-yellow"><Clock size={10} className="mr-0.5" />In Bearbeitung</span>
 }
 
 function formatDate(d) {
   if (!d) return '—'
-  return new Date(d).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+  return new Date(d).toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: 'numeric' })
 }
 
 export default function AdminClientDetail() {
@@ -74,9 +74,9 @@ export default function AdminClientDetail() {
   }
 
   function mailtoInviteLink() {
-    const subject = encodeURIComponent(`Your Service Book access – ${client.full_name}`)
+    const subject = encodeURIComponent(`Ihr Service Book Zugang – ${client.full_name}`)
     const body = encodeURIComponent(
-      `Hi ${client.full_name},\n\nYour heating service records are now available online.\n\nClick the link below to create your account and view your service history, photos, and invoices:\n\n${inviteUrl()}\n\nIf you have any questions, feel free to get in touch.\n\nKind regards`
+      `Hallo ${client.full_name},\n\nIhre Heizungsserviceunterlagen sind jetzt online verfügbar.\n\nKlicken Sie auf den folgenden Link, um Ihr Konto zu erstellen und Ihre Servicehistorie, Fotos und Rechnungen einzusehen:\n\n${inviteUrl()}\n\nBei Fragen stehen wir Ihnen gerne zur Verfügung.\n\nMit freundlichen Grüßen`
     )
     return `mailto:${client.email || ''}?subject=${subject}&body=${body}`
   }
@@ -91,12 +91,12 @@ export default function AdminClientDetail() {
       </div>
     </AdminLayout>
   )
-  if (!client) return <AdminLayout><p className="text-slate-500">Client not found.</p></AdminLayout>
+  if (!client) return <AdminLayout><p className="text-slate-500">Kunde nicht gefunden.</p></AdminLayout>
 
   return (
     <AdminLayout
       title={client.full_name}
-      breadcrumbs={[{ label: 'Clients', href: '/admin' }, { label: client.full_name }]}
+      breadcrumbs={[{ label: 'Kunden', href: '/admin' }, { label: client.full_name }]}
     >
       <div className="space-y-6">
 
@@ -138,16 +138,16 @@ export default function AdminClientDetail() {
             <div className="flex flex-wrap gap-2">
               <button onClick={copyInviteLink} className="btn-secondary btn-sm">
                 {copied ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}
-                {copied ? 'Copied!' : 'Copy invite link'}
+                {copied ? 'Kopiert!' : 'Einladungslink kopieren'}
               </button>
               <a href={mailtoInviteLink()} className="btn-secondary btn-sm">
-                <Send size={13} /> Email invite
+                <Send size={13} /> Einladung per E-Mail
               </a>
               <Link to={`/admin/clients/${clientId}/locations/new`} className="btn-secondary btn-sm">
-                <Plus size={13} /> Add location
+                <Plus size={13} /> Standort hinzufügen
               </Link>
               <Link to={`/admin/clients/${clientId}/jobs/new`} className="btn-primary btn-sm">
-                <Plus size={13} /> New job
+                <Plus size={13} /> Neuer Auftrag
               </Link>
             </div>
           </div>
@@ -155,7 +155,7 @@ export default function AdminClientDetail() {
           {!client.profile_id && (
             <div className="mt-4">
               <HelpTip>
-                This client hasn't created their account yet. Send them the invite link so they can register and view their service records. The link is unique to this client — once they sign up, their account will be automatically linked.
+                Dieser Kunde hat noch kein Konto erstellt. Senden Sie ihm den Einladungslink, damit er sich registrieren und seine Servicehistorie einsehen kann. Der Link ist diesem Kunden eindeutig zugeordnet – nach der Registrierung wird das Konto automatisch verknüpft.
               </HelpTip>
             </div>
           )}
@@ -165,9 +165,9 @@ export default function AdminClientDetail() {
         {locations.length > 0 && (
           <div>
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-base font-bold text-slate-900">Locations & Equipment</h2>
+              <h2 className="text-base font-bold text-slate-900">Standorte & Geräte</h2>
               <Link to={`/admin/clients/${clientId}/locations/new`} className="btn-ghost btn-sm text-xs">
-                <Plus size={13} /> Add location
+                <Plus size={13} /> Standort hinzufügen
               </Link>
             </div>
 
@@ -185,13 +185,13 @@ export default function AdminClientDetail() {
                           <p className="font-semibold text-slate-900 text-sm truncate">{loc.address}</p>
                           {loc.city && <p className="text-xs text-slate-500">{loc.city}</p>}
                         </div>
-                        {loc.is_primary && <span className="badge-blue btn-sm shrink-0">Primary</span>}
+                        {loc.is_primary && <span className="badge-blue btn-sm shrink-0">Hauptstandort</span>}
                       </div>
                       <Link
                         to={`/admin/locations/${loc.id}/devices/new`}
                         className="btn-secondary btn-sm shrink-0"
                       >
-                        <Plus size={12} /> Device
+                        <Plus size={12} /> Gerät
                       </Link>
                     </div>
 
@@ -199,9 +199,9 @@ export default function AdminClientDetail() {
                     {locDevices.length === 0 ? (
                       <div className="px-5 py-4 flex items-center gap-2 text-sm text-slate-400">
                         <Cpu size={15} />
-                        <span>No devices added yet.</span>
+                        <span>Noch keine Geräte hinzugefügt.</span>
                         <Link to={`/admin/locations/${loc.id}/devices/new`} className="text-blue-600 hover:underline text-xs font-medium">
-                          Add one
+                          Hinzufügen
                         </Link>
                       </div>
                     ) : (
@@ -218,7 +218,7 @@ export default function AdminClientDetail() {
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center gap-2 flex-wrap">
                                     <p className="font-semibold text-slate-900 text-sm">
-                                      {dev.manufacturer ? `${dev.manufacturer} ${dev.model || ''}`.trim() : (dev.model || 'Unknown device')}
+                                      {dev.manufacturer ? `${dev.manufacturer} ${dev.model || ''}`.trim() : (dev.model || 'Unbekanntes Gerät')}
                                     </p>
                                     <EquipmentBadge type={dev.equipment_type} />
                                   </div>
@@ -228,7 +228,7 @@ export default function AdminClientDetail() {
                                     )}
                                     {lastJob && (
                                       <p className="text-xs text-slate-400">
-                                        Last service: {formatDate(lastJob.service_date)}
+                                        Letzter Service: {formatDate(lastJob.service_date)}
                                       </p>
                                     )}
                                   </div>
@@ -236,7 +236,7 @@ export default function AdminClientDetail() {
                                 <Link
                                   to={`/admin/devices/${dev.id}/jobs/new`}
                                   className="btn-ghost btn-sm shrink-0"
-                                  title="New job for this device"
+                                  title="Neuer Auftrag für dieses Gerät"
                                 >
                                   <Plus size={13} />
                                 </Link>
@@ -259,7 +259,7 @@ export default function AdminClientDetail() {
                                     </Link>
                                   ))}
                                   {devJobs.length > 3 && (
-                                    <p className="text-xs text-slate-400 px-3">+{devJobs.length - 3} more jobs</p>
+                                    <p className="text-xs text-slate-400 px-3">+{devJobs.length - 3} weitere Aufträge</p>
                                   )}
                                 </div>
                               )}
@@ -285,11 +285,11 @@ export default function AdminClientDetail() {
         <div>
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-base font-bold text-slate-900">
-              Service history
-              <span className="ml-2 text-sm font-normal text-slate-400">({jobs.length} records)</span>
+              Servicehistorie
+              <span className="ml-2 text-sm font-normal text-slate-400">({jobs.length} Einträge)</span>
             </h2>
             <Link to={`/admin/clients/${clientId}/jobs/new`} className="btn-primary btn-sm">
-              <Plus size={13} /> New job
+              <Plus size={13} /> Neuer Auftrag
             </Link>
           </div>
 
@@ -298,10 +298,10 @@ export default function AdminClientDetail() {
               <div className="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Wrench size={22} className="text-slate-400" />
               </div>
-              <p className="font-semibold text-slate-700 mb-1">No service records yet</p>
-              <p className="text-sm text-slate-400 mb-5">Create the first job for this client.</p>
+              <p className="font-semibold text-slate-700 mb-1">Noch keine Serviceeinträge</p>
+              <p className="text-sm text-slate-400 mb-5">Erstellen Sie den ersten Auftrag für diesen Kunden.</p>
               <Link to={`/admin/clients/${clientId}/jobs/new`} className="btn-primary inline-flex">
-                <Plus size={15} /> Create first job
+                <Plus size={15} /> Ersten Auftrag erstellen
               </Link>
             </div>
           ) : (
@@ -326,7 +326,7 @@ export default function AdminClientDetail() {
                       )}
                       {job.total_amount && (
                         <span className="text-xs text-slate-500 font-medium">
-                          {job.currency} {Number(job.total_amount).toLocaleString()}
+                          {job.currency} {Number(job.total_amount).toLocaleString('de-DE')}
                         </span>
                       )}
                     </div>

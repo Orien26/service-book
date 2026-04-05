@@ -7,11 +7,11 @@ import EquipmentBadge from '../../components/EquipmentBadge'
 import HelpTip from '../../components/HelpTip'
 
 const TABS = [
-  { key: 'all',        label: 'All Clients' },
-  { key: 'heat_pump',  label: 'Heat Pumps' },
-  { key: 'oil_boiler', label: 'Oil Boilers' },
-  { key: 'gas_boiler', label: 'Gas Boilers' },
-  { key: 'other',      label: 'Other' },
+  { key: 'all',        label: 'Alle Kunden' },
+  { key: 'heat_pump',  label: 'Wärmepumpen' },
+  { key: 'oil_boiler', label: 'Ölheizungen' },
+  { key: 'gas_boiler', label: 'Gasheizungen' },
+  { key: 'other',      label: 'Sonstiges' },
 ]
 
 export default function AdminDashboard() {
@@ -46,21 +46,21 @@ export default function AdminDashboard() {
   const gasBoilers = clients.filter(c => c.equipment_type === 'gas_boiler').length
 
   return (
-    <AdminLayout title="Clients">
+    <AdminLayout title="Kunden">
       {total === 0 && (
         <div className="mb-5">
           <HelpTip>
-            Welcome! Start by clicking <strong>Add client</strong> to create your first client. You can then add their property locations, equipment, and service jobs. Once a job is created, send the client their invite link so they can view their records online.
+            Willkommen! Klicken Sie auf <strong>Kunde hinzufügen</strong>, um Ihren ersten Kunden anzulegen. Anschließend können Sie Standorte, Geräte und Serviceaufträge erfassen. Sobald ein Auftrag erstellt wurde, senden Sie dem Kunden den Einladungslink, damit er seine Unterlagen online einsehen kann.
           </HelpTip>
         </div>
       )}
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <StatCard value={total}      label="Total clients"  color="blue"   />
-        <StatCard value={heatPumps}  label="Heat Pumps"     color="teal"   />
-        <StatCard value={oilBoilers} label="Oil Boilers"    color="amber"  />
-        <StatCard value={gasBoilers} label="Gas Boilers"    color="orange" />
+        <StatCard value={total}      label="Kunden gesamt"  color="blue"   />
+        <StatCard value={heatPumps}  label="Wärmepumpen"    color="teal"   />
+        <StatCard value={oilBoilers} label="Ölheizungen"    color="amber"  />
+        <StatCard value={gasBoilers} label="Gasheizungen"   color="orange" />
       </div>
 
       {/* Filters bar */}
@@ -70,7 +70,7 @@ export default function AdminDashboard() {
             <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               className="input pl-10"
-              placeholder="Search by name, city, address, email, phone…"
+              placeholder="Suche nach Name, Stadt, Adresse, E-Mail, Telefon…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -82,13 +82,13 @@ export default function AdminDashboard() {
               value={cityFilter}
               onChange={(e) => setCityFilter(e.target.value)}
             >
-              <option value="">All cities</option>
+              <option value="">Alle Städte</option>
               {cities.map(city => <option key={city} value={city}>{city}</option>)}
             </select>
           )}
 
           <Link to="/admin/clients/new" className="btn-primary shrink-0">
-            <Plus size={16} /> Add client
+            <Plus size={16} /> Kunde hinzufügen
           </Link>
         </div>
 
@@ -126,14 +126,14 @@ export default function AdminDashboard() {
             <Users size={24} className="text-slate-400" />
           </div>
           <p className="font-semibold text-slate-700 mb-1">
-            {search || cityFilter || activeTab !== 'all' ? 'No clients match your filters' : 'No clients yet'}
+            {search || cityFilter || activeTab !== 'all' ? 'Keine Kunden entsprechen Ihren Filtern' : 'Noch keine Kunden'}
           </p>
           <p className="text-sm text-slate-400 mb-5">
-            {search || cityFilter || activeTab !== 'all' ? 'Try adjusting your search or filters.' : 'Add your first client to get started.'}
+            {search || cityFilter || activeTab !== 'all' ? 'Passen Sie Ihre Suche oder Filter an.' : 'Fügen Sie Ihren ersten Kunden hinzu, um zu beginnen.'}
           </p>
           {!search && !cityFilter && activeTab === 'all' && (
             <Link to="/admin/clients/new" className="btn-primary inline-flex">
-              <Plus size={15} /> Add first client
+              <Plus size={15} /> Ersten Kunden hinzufügen
             </Link>
           )}
         </div>
@@ -179,7 +179,7 @@ export default function AdminDashboard() {
 
               {/* Right */}
               <div className="flex items-center gap-2.5 shrink-0">
-                <span className="badge-slate">{client.jobs?.[0]?.count ?? 0} jobs</span>
+                <span className="badge-slate">{client.jobs?.[0]?.count ?? 0} Aufträge</span>
                 <ChevronRight size={16} className="text-slate-300 group-hover:text-slate-500 transition-colors" />
               </div>
             </Link>
@@ -189,7 +189,7 @@ export default function AdminDashboard() {
 
       {filtered.length > 0 && (
         <p className="text-xs text-slate-400 text-right mt-3">
-          Showing {filtered.length} of {clients.length} clients
+          {filtered.length} von {clients.length} Kunden
         </p>
       )}
     </AdminLayout>

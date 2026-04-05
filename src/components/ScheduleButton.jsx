@@ -13,10 +13,10 @@ export default function ScheduleButton() {
       <button
         onClick={() => setOpen(true)}
         className="schedule-pulse fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-2xl shadow-float transition-colors"
-        title="Schedule a service appointment"
+        title="Servicetermin buchen"
       >
         <CalendarPlus size={18} />
-        <span className="hidden sm:block">Schedule Service</span>
+        <span className="hidden sm:block">Termin buchen</span>
       </button>
 
       {open && (
@@ -38,8 +38,8 @@ export default function ScheduleButton() {
                   <CalendarPlus size={16} className="text-blue-600" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-slate-900">Schedule a Service</p>
-                  <p className="text-xs text-slate-500">Pick a date and time that works for you</p>
+                  <p className="text-sm font-bold text-slate-900">Termin buchen</p>
+                  <p className="text-xs text-slate-500">Wählen Sie einen passenden Termin</p>
                 </div>
               </div>
               <button
@@ -54,7 +54,7 @@ export default function ScheduleButton() {
             <iframe
               src={`${CALENDLY_URL}?embed_type=Inline&hide_gdpr_banner=1&primary_color=2563eb`}
               className="flex-1 w-full border-0"
-              title="Schedule a service appointment"
+              title="Servicetermin buchen"
             />
           </div>
         </div>

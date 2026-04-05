@@ -9,7 +9,7 @@ import HelpTip from '../../components/HelpTip'
 
 function formatDate(d) {
   if (!d) return '—'
-  return new Date(d).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+  return new Date(d).toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: 'numeric' })
 }
 
 export default function ClientDashboard() {
@@ -89,14 +89,14 @@ export default function ClientDashboard() {
 
   if (!client) {
     return (
-      <ClientLayout title="Your service records">
+      <ClientLayout title="Ihre Servicehistorie">
         <div className="card p-12 text-center">
           <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <Wrench size={22} className="text-slate-400" />
           </div>
-          <p className="font-semibold text-slate-900 mb-1">Account not linked</p>
+          <p className="font-semibold text-slate-900 mb-1">Konto nicht verknüpft</p>
           <p className="text-sm text-slate-500 max-w-xs mx-auto">
-            Contact your service provider — they'll send you an invite link to connect your account to your property records.
+            Kontaktieren Sie Ihren Serviceanbieter – er sendet Ihnen einen Einladungslink, um Ihr Konto mit Ihren Unterlagen zu verbinden.
           </p>
         </div>
       </ClientLayout>
@@ -108,11 +108,11 @@ export default function ClientDashboard() {
   const visibleJobs  = showArchived ? jobs : activeJobs
 
   return (
-    <ClientLayout title="Your service records">
+    <ClientLayout title="Ihre Servicehistorie">
 
       <div className="mb-5">
         <HelpTip>
-          Here you can see all your heating service records. Click on any job to view details, photos, invoices, and messages from your technician. Use the <strong>Schedule Service</strong> button to book your next appointment.
+          Hier sehen Sie alle Ihre Heizungsserviceeinträge. Klicken Sie auf einen Auftrag, um Details, Fotos, Rechnungen und Nachrichten Ihres Technikers einzusehen. Nutzen Sie den Button <strong>Termin buchen</strong>, um Ihren nächsten Servicetermin zu vereinbaren.
         </HelpTip>
       </div>
 
@@ -121,14 +121,14 @@ export default function ClientDashboard() {
         {editing ? (
           <div className="space-y-3">
             <div>
-              <label className="label">Full name</label>
+              <label className="label">Vollständiger Name</label>
               <div className="relative">
                 <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input className="input pl-10" value={editForm.full_name} onChange={e => setEditForm(f => ({ ...f, full_name: e.target.value }))} />
               </div>
             </div>
             <div>
-              <label className="label">Phone</label>
+              <label className="label">Telefon</label>
               <div className="relative">
                 <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input className="input pl-10" value={editForm.phone} onChange={e => setEditForm(f => ({ ...f, phone: e.target.value }))} />
@@ -136,10 +136,10 @@ export default function ClientDashboard() {
             </div>
             <div className="flex gap-2 pt-1">
               <button onClick={saveProfile} disabled={saving} className="btn-primary btn-sm">
-                <Save size={13} /> {saving ? 'Saving…' : 'Save'}
+                <Save size={13} /> {saving ? 'Speichern…' : 'Speichern'}
               </button>
               <button onClick={() => setEditing(false)} className="btn-secondary btn-sm">
-                <X size={13} /> Cancel
+                <X size={13} /> Abbrechen
               </button>
             </div>
           </div>
@@ -159,7 +159,7 @@ export default function ClientDashboard() {
               onClick={() => { setEditForm({ full_name: client.full_name || '', phone: client.phone || '' }); setEditing(true) }}
               className="btn-ghost btn-sm shrink-0"
             >
-              <Edit2 size={13} /> Edit
+              <Edit2 size={13} /> Bearbeiten
             </button>
           </div>
         )}
@@ -168,7 +168,7 @@ export default function ClientDashboard() {
       {/* Locations & Devices (if set up) */}
       {locations.length > 0 && (
         <div className="mb-5 space-y-3">
-          <h2 className="text-base font-bold text-slate-900">Your properties</h2>
+          <h2 className="text-base font-bold text-slate-900">Ihre Liegenschaften</h2>
           {locations.map(loc => {
             const locDevices = devices[loc.id] || []
             return (
@@ -182,7 +182,7 @@ export default function ClientDashboard() {
                 </div>
                 {locDevices.length === 0 ? (
                   <div className="px-4 py-3 text-sm text-slate-400 flex items-center gap-2">
-                    <Cpu size={14} /> No equipment records yet
+                    <Cpu size={14} /> Noch keine Geräte vorhanden
                   </div>
                 ) : (
                   <div className="divide-y divide-slate-100">
@@ -193,7 +193,7 @@ export default function ClientDashboard() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-semibold text-slate-900">
-                            {dev.manufacturer ? `${dev.manufacturer} ${dev.model || ''}`.trim() : (dev.model || 'Equipment')}
+                            {dev.manufacturer ? `${dev.manufacturer} ${dev.model || ''}`.trim() : (dev.model || 'Anlage')}
                           </p>
                           <EquipmentBadge type={dev.equipment_type} />
                         </div>
@@ -211,7 +211,7 @@ export default function ClientDashboard() {
       <div>
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-base font-bold text-slate-900">
-            Service history
+            Servicehistorie
           </h2>
           {archivedJobs.length > 0 && (
             <button
@@ -219,7 +219,7 @@ export default function ClientDashboard() {
               className="btn-ghost btn-sm text-xs"
             >
               <Archive size={13} />
-              {showArchived ? 'Hide archived' : `Show archived (${archivedJobs.length})`}
+              {showArchived ? 'Archivierte ausblenden' : `Archivierte anzeigen (${archivedJobs.length})`}
             </button>
           )}
         </div>
@@ -229,7 +229,7 @@ export default function ClientDashboard() {
             <div className="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Wrench size={20} className="text-slate-400" />
             </div>
-            <p className="text-sm text-slate-500">No service records yet. Your service provider will add jobs here.</p>
+            <p className="text-sm text-slate-500">Noch keine Serviceeinträge vorhanden. Ihr Techniker wird hier Aufträge hinzufügen.</p>
           </div>
         ) : (
           <div className="card divide-y divide-slate-100">
@@ -255,11 +255,11 @@ export default function ClientDashboard() {
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   {job.is_archived ? (
-                    <span className="badge-slate"><Archive size={10} /> Archived</span>
+                    <span className="badge-slate"><Archive size={10} /> Archiviert</span>
                   ) : job.status === 'completed' ? (
-                    <span className="badge-green"><CheckCircle size={10} /> Done</span>
+                    <span className="badge-green"><CheckCircle size={10} /> Erledigt</span>
                   ) : (
-                    <span className="badge-yellow"><Clock size={10} /> In progress</span>
+                    <span className="badge-yellow"><Clock size={10} /> In Bearbeitung</span>
                   )}
                   <ChevronRight size={14} className="text-slate-300 group-hover:text-slate-500 transition-colors" />
                 </div>

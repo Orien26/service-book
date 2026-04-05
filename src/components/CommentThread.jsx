@@ -8,10 +8,10 @@ function formatDate(ts) {
   const now = new Date()
   const diffMs = now - d
   const diffMins = Math.floor(diffMs / 60000)
-  if (diffMins < 1)  return 'Just now'
-  if (diffMins < 60) return `${diffMins}m ago`
-  if (diffMins < 1440) return `${Math.floor(diffMins / 60)}h ago`
-  return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+  if (diffMins < 1)  return 'Gerade eben'
+  if (diffMins < 60) return `vor ${diffMins} Min.`
+  if (diffMins < 1440) return `vor ${Math.floor(diffMins / 60)} Std.`
+  return d.toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
 }
 
 export default function CommentThread({ jobId, comments, onNewComment }) {
@@ -36,7 +36,7 @@ export default function CommentThread({ jobId, comments, onNewComment }) {
       .insert({
         job_id: jobId,
         content: text.trim(),
-        author_name: profile?.full_name || 'Unknown',
+        author_name: profile?.full_name || 'Unbekannt',
         created_by: user.id,
       })
       .select('*, profiles(role, full_name)')
@@ -65,7 +65,7 @@ export default function CommentThread({ jobId, comments, onNewComment }) {
             <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-2">
               <Send size={16} className="text-slate-400" />
             </div>
-            <p className="text-sm text-slate-400">No messages yet. Start the conversation.</p>
+            <p className="text-sm text-slate-400">Noch keine Nachrichten. Beginnen Sie die Unterhaltung.</p>
           </div>
         ) : (
           comments.map((c) => {
@@ -89,7 +89,7 @@ export default function CommentThread({ jobId, comments, onNewComment }) {
                     {c.content}
                   </div>
                   <p className="text-[11px] text-slate-400 px-1">
-                    {c.author_name || 'Unknown'} · {formatDate(c.created_at)}
+                    {c.author_name || 'Unbekannt'} · {formatDate(c.created_at)}
                   </p>
                 </div>
               </div>
@@ -104,7 +104,7 @@ export default function CommentThread({ jobId, comments, onNewComment }) {
         <textarea
           className="input flex-1 resize-none"
           rows={1}
-          placeholder="Write a message… (Enter to send)"
+          placeholder="Nachricht schreiben… (Enter zum Senden)"
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={handleKey}
